@@ -16,6 +16,7 @@ import {
   Search
 } from "lucide-react";
 import { useState } from "react";
+import Logo from "./Logo";
 
 const Navbar = () => (
   <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-black/80 backdrop-blur-xl">
@@ -23,18 +24,7 @@ const Navbar = () => (
       <div className="flex justify-between h-20 items-center">
         <div className="flex items-center gap-4">
           <div className="relative w-12 h-12 flex items-center justify-center">
-            <svg viewBox="0 0 100 100" className="w-full h-full text-white fill-none stroke-current stroke-[5]">
-              {/* Main K Shape */}
-              <path d="M35 25 V75 M35 50 L65 25 M45 42 L65 75" strokeLinecap="square" />
-              {/* Circuit Dots */}
-              <circle cx="35" cy="25" r="3" fill="currentColor" />
-              <circle cx="35" cy="75" r="3" fill="currentColor" />
-              <circle cx="65" cy="25" r="3" fill="currentColor" />
-              <circle cx="65" cy="75" r="3" fill="currentColor" />
-              <circle cx="35" cy="50" r="3" fill="currentColor" />
-              <circle cx="50" cy="38" r="3" fill="currentColor" />
-              <circle cx="55" cy="58" r="3" fill="currentColor" />
-            </svg>
+            <Logo className="w-full h-full text-white fill-none stroke-current stroke-[5]" />
           </div>
           <span className="font-display font-bold text-2xl tracking-tight">KARIB'IA</span>
         </div>
@@ -214,7 +204,7 @@ const Contact = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-20"
-              >
+>
                 <div className="w-20 h-20 bg-brand-primary/20 rounded-full flex items-center justify-center mx-auto mb-8">
                   <CheckCircle2 className="text-brand-primary w-10 h-10" />
                 </div>
@@ -253,14 +243,8 @@ const Footer = () => (
         <div className="col-span-1 md:col-span-2">
           <div className="flex items-center gap-3 mb-6">
             <div className="relative w-10 h-10 flex items-center justify-center">
-              <svg viewBox="0 0 100 100" className="w-full h-full text-white fill-none stroke-current stroke-[6]">
-                <path d="M35 25 V75 M35 50 L65 25 M45 42 L65 75" strokeLinecap="square" />
-                <circle cx="35" cy="25" r="3" fill="currentColor" />
-                <circle cx="35" cy="75" r="3" fill="currentColor" />
-                <circle cx="65" cy="25" r="3" fill="currentColor" />
-                <circle cx="65" cy="75" r="3" fill="currentColor" />
-              </svg>
-            </div>
+                <Logo className="w-full h-full text-white fill-none stroke-current stroke-[6]" />
+              </div>
             <span className="font-display font-bold text-2xl tracking-tight">KARIB'IA</span>
           </div>
           <p className="text-white/40 max-w-sm leading-relaxed">
