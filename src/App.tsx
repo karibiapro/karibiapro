@@ -22,20 +22,7 @@ const Navbar = () => (
     <div className="max-w-7xl mx-auto px-6 lg:px-12">
       <div className="flex justify-between h-20 items-center">
         <div className="flex items-center gap-4">
-          <div className="relative w-12 h-12 flex items-center justify-center">
-            <svg viewBox="0 0 100 100" className="w-full h-full text-white fill-none stroke-current stroke-[5]">
-              {/* Main K Shape */}
-              <path d="M35 25 V75 M35 50 L65 25 M45 42 L65 75" strokeLinecap="square" />
-              {/* Circuit Dots */}
-              <circle cx="35" cy="25" r="3" fill="currentColor" />
-              <circle cx="35" cy="75" r="3" fill="currentColor" />
-              <circle cx="65" cy="25" r="3" fill="currentColor" />
-              <circle cx="65" cy="75" r="3" fill="currentColor" />
-              <circle cx="35" cy="50" r="3" fill="currentColor" />
-              <circle cx="50" cy="38" r="3" fill="currentColor" />
-              <circle cx="55" cy="58" r="3" fill="currentColor" />
-            </svg>
-          </div>
+          <img src="/logo.png" alt="KARIB'IA Logo" className="w-12 h-12 object-contain" />
           <span className="font-display font-bold text-2xl tracking-tight">KARIB'IA</span>
         </div>
         <div className="hidden md:flex items-center gap-10 text-xs font-bold uppercase tracking-widest text-white/50">
@@ -164,6 +151,32 @@ const Services = () => (
 
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        alert("Erreur lors de l'envoi. Veuillez réessayer.");
+      }
+    } catch (error) {
+      alert("Erreur de connexion. Veuillez réessayer.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section id="contact" className="py-32">
@@ -222,20 +235,45 @@ const Contact = () => {
                 <p className="text-white/50 text-lg">Nous vous recontacterons sous 24 heures.</p>
               </motion.div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-8">
+              <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="space-y-6">
                   <div>
-                    <input required type="text" className="w-full bg-transparent border-b border-white/10 py-4 focus:outline-none focus:border-brand-primary transition-colors text-lg" placeholder="Votre nom" />
+                    <input 
+                      required 
+                      type="text" 
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      className="w-full bg-transparent border-b border-white/10 py-4 focus:outline-none focus:border-brand-primary transition-colors text-lg" 
+                      placeholder="Votre nom" 
+                    />
                   </div>
                   <div>
-                    <input required type="email" className="w-full bg-transparent border-b border-white/10 py-4 focus:outline-none focus:border-brand-primary transition-colors text-lg" placeholder="Email professionnel" />
+                    <input 
+                      required 
+                      type="email" 
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      className="w-full bg-transparent border-b border-white/10 py-4 focus:outline-none focus:border-brand-primary transition-colors text-lg" 
+                      placeholder="Email professionnel" 
+                    />
                   </div>
                   <div>
-                    <textarea required rows={4} className="w-full bg-transparent border-b border-white/10 py-4 focus:outline-none focus:border-brand-primary transition-colors text-lg resize-none" placeholder="Votre projet en quelques mots..."></textarea>
+                    <textarea 
+                      required 
+                      rows={4} 
+                      value={formData.message}
+                      onChange={(e) => setFormData({...formData, message: e.target.value})}
+                      className="w-full bg-transparent border-b border-white/10 py-4 focus:outline-none focus:border-brand-primary transition-colors text-lg resize-none" 
+                      placeholder="Votre projet en quelques mots..."
+                    ></textarea>
                   </div>
                 </div>
-                <button type="submit" className="w-full py-5 bg-white text-black rounded-full font-bold text-xl hover:bg-brand-primary transition-all duration-300">
-                  Envoyer ma demande
+                <button 
+                  type="submit" 
+                  disabled={loading}
+                  className="w-full py-5 bg-white text-black rounded-full font-bold text-xl hover:bg-brand-primary transition-all duration-300 disabled:opacity-50"
+                >
+                  {loading ? "Envoi en cours..." : "Envoyer ma demande"}
                 </button>
               </form>
             )}
