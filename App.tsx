@@ -159,13 +159,16 @@ const Contact = () => {
     setLoading(true);
     
     try {
-      const response = await fetch("https://script.google.com/macros/s/AKfycbx_n2Bh7nC3s6TfLgoA3L0m7bKi45T6-RxcvB8urAU3P68S43SY01E9BNm6myNX3HpB/exec", {
+      const body = new URLSearchParams({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message
+      });
+
+      const response = await fetch("https://script.google.com/macros/s/AKfycbxHPyexlx_vACT6qAbSEs-CyRg6Zk_It9lDGq3idaSpkmJi5yOnB1X2QiAXywvVvQ/exec", {
         method: "POST",
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message
-        })
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body: body.toString()
       });
       
       if (response.ok || response.status === 200) {
