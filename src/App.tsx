@@ -159,13 +159,16 @@ const Contact = () => {
     setLoading(true);
     
     try {
-      const response = await fetch("/api/send-email", {
+      const response = await fetch("https://script.google.com/macros/s/AKfycbx_n2Bh7nC3s6TfLgoA3L0m7bKi45T6-RxcvB8urAU3P68S43SY01E9BNm6myNX3HpB/exec", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        })
       });
       
-      if (response.ok) {
+      if (response.ok || response.status === 200) {
         setSubmitted(true);
         setFormData({ name: "", email: "", message: "" });
       } else {
@@ -173,6 +176,7 @@ const Contact = () => {
       }
     } catch (error) {
       alert("Erreur de connexion. Veuillez réessayer.");
+      console.error("Erreur:", error);
     } finally {
       setLoading(false);
     }
